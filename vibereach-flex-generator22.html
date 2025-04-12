@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VibeReach Flex Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 400px;
+    }
+    input, textarea, button {
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+    button {
+      background: #ff0050;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #e60045;
+    }
+    .preview {
+      margin-top: 30px;
+      padding: 20px;
+      background: #1a1a1a;
+      width: 100%;
+      max-width: 400px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 0, 80, 0.3);
+      position: relative;
+    }
+    .profile-pic {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: gray;
+      margin-bottom: 10px;
+    }
+    .username { font-weight: bold; font-size: 1.2rem; }
+    .caption, .likes, .comment, .sound, .shares { margin-top: 10px; font-size: 0.95rem; }
+    #downloadBtn {
+      margin-top: 15px;
+      background: #00f2ea;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>VibeReach Flex Generator 💥</h1>
+  <form id="flexForm">
+    <input type="text" id="username" placeholder="Your username" required>
+    <input type="text" id="profilePic" placeholder="Profile pic URL (optional)">
+    <textarea id="caption" placeholder="Caption..." rows="3" required></textarea>
+    <input type="text" id="likes" placeholder="Likes (e.g. 30K)" required>
+    <input type="text" id="shares" placeholder="Shares (e.g. 1.2K)" required>
+    <input type="text" id="sound" placeholder="Sound (e.g. original sound - you)">
+    <textarea id="topComment" placeholder="Top Comment..." rows="2" required></textarea>
+    <button type="submit">Generate Flex</button>
+  </form>
+
+  <div class="preview" id="preview" style="display: none;">
+    <div class="profile-pic" id="displayPic"></div>
+    <div class="username" id="displayUsername"></div>
+    <div class="caption" id="displayCaption"></div>
+    <div class="likes" id="displayLikes"></div>
+    <div class="shares" id="displayShares"></div>
+    <div class="sound" id="displaySound"></div>
+    <div class="comment" id="displayComment"></div>
+  </div>
+
+  <button id="downloadBtn" style="display:none;">Download Image</button>
+
+  <script>
+    const form = document.getElementById('flexForm');
+    const preview = document.getElementById('preview');
+    const downloadBtn = document.getElementById('downloadBtn');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById('username').value;
+      const profilePic = document.getElementById('profilePic').value;
+      const caption = document.getElementById('caption').value;
+      const likes = document.getElementById('likes').value;
+      const shares = document.getElementById('shares').value;
+      const sound = document.getElementById('sound').value;
+      const topComment = document.getElementById('topComment').value;
+
+      document.getElementById('displayUsername').innerText = `@${username}`;
+      document.getElementById('displayCaption').innerText = caption;
+      document.getElementById('displayLikes').innerText = `❤️ ${likes}   💬 110 comments`;
+      document.getElementById('displayShares').innerText = `🔁 ${shares} shares`;
+      document.getElementById('displaySound').innerText = `🎵 ${sound}`;
+      document.getElementById('displayComment').innerText = `Top Comment: ${topComment}`;
+
+      const picDiv = document.getElementById('displayPic');
+      if (profilePic.trim() !== '') {
+        picDiv.style.backgroundImage = `url(${profilePic})`;
+        picDiv.style.backgroundSize = 'cover';
+        picDiv.style.backgroundPosition = 'center';
+      } else {
+        picDiv.style.backgroundImage = 'none';
+        picDiv.style.backgroundColor = 'gray';
+      }
+
+      preview.style.display = 'block';
+      downloadBtn.style.display = 'block';
+    });
+
+    downloadBtn.addEventListener('click', () => {
+      html2canvas(preview).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'vibereach-flex.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
